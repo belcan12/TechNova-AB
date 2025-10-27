@@ -39,6 +39,8 @@ export async function getRetriever() {
   const store = await getVectorStore();
   return store.asRetriever({
     k: 4,
-    searchType: 'mmr'
+    
+    searchType: 'similarity' 
   });
 }
+
