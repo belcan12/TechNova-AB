@@ -1,0 +1,27 @@
+:root { color-scheme: light dark; }
+body { font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; margin: 0; }
+.container { max-width: 860px; margin: 0 auto; padding: 16px; }
+.chat {
+  border: 1px solid rgba(127,127,127,.3);
+  border-radius: 12px; padding: 12px; min-height: 60vh;
+  display: flex; flex-direction: column; gap: 12px; background: rgba(127,127,127,.05);
+}
+.input-row { display: flex; gap: 8px; margin-top: 12px; }
+.input-row input {
+  flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(127,127,127,.3);
+}
+.input-row button {
+  padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(127,127,127,.3); cursor: pointer;
+}
+.msg { padding: 10px 12px; border-radius: 10px; line-height: 1.4; white-space: pre-wrap; }
+.msg.user { background: rgba(0, 132, 255, 0.12); align-self: flex-end; }
+.msg.bot { background: rgba(127,127,127,.12); align-self: flex-start; }
+.citations {
+  font-size: 0.9rem; opacity: 0.9; padding-top: 6px; border-top: 1px dashed rgba(127,127,127,.3);
+}
+.citation-item { margin-top: 6px; }
+.small { font-size: 0.9rem; opacity: 0.7; }
+.header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+.badge { font-size: .8rem; opacity: .8; }
