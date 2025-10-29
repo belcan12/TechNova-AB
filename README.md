@@ -1,21 +1,22 @@
-README.md
 # TechNova AB – Kundtjänstbot (Fullstack JS)
 
-En AI-baserad kundsupportassistent för TechNova AB. Svarar på frågor om produkter, leveranser, returer, garantier, tekniskt stöd och policyer – och visar källhänvisningar från företagets FAQ/policydokument.
+En AI-baserad kundsupportassistent för TechNova AB. Svarar på frågor om produkter, leveranser, returer, garantier, tekniskt stöd och policyer – och visar källhänvisningar från företagets FAQ-/policydokument.
 
 ## Teknik
-- React (Vite) – chat-UI
-- Express – API
-- LangChain.js:
-  - PromptTemplates, ChatPromptTemplate
-  - RunnableSequence, RunnablePassthrough
-  - RunnableWithMessageHistory (minne per session)
-  - **RunnableBranch** (scope-vakt / routing) ← *extra-funktion för Väl Godkänt*
-- Supabase + pgvector – vektor-sök
-- Ollama – lokalt LLM & embeddings
+- **React (Vite)** – chat-UI
+- **Express** – API
+- **LangChain.js**:
+  - `ChatPromptTemplate`
+  - `RunnableSequence`, `RunnablePassthrough`
+  - `RunnableWithMessageHistory` (minne per session)
+  - **Router med `RunnableLambda`** (scope-vakt / routing)
+- **Supabase + pgvector** – vektorsök
+- **Ollama** – lokalt LLM & embeddings
 
-## Varför RunnableBranch?
-Jag använde **RunnableBranch** för att bygga en *scope-vakt* som dirigerar användarfrågor antingen till QA-kedjan (retrieval-augmented generation) eller till ett vänligt avslag när frågan ligger utanför uppgiftens tillåtna område. Detta ger tydlig kontroll och uppfyller kravet att botten inte ska svara på irrelevanta frågor (t.ex. "Vad är JavaScript?") samtidigt som det demonstrerar en LangChain-funktion vi inte gått igenom i kursen.
+## Varför router med RunnableLambda?
+Jag valde att bygga en enkel *scope-vakt* med `RunnableLambda` som avgör om frågan ska köras via QA-kedjan (RAG) eller få ett vänligt avslag. Det här mönstret – en egen router i kedjan – demonstrerar hur man kan styra flödet dynamiskt i LangChain utanför det vi gått igenom i kursen, och det gör beteendet lätt att anpassa (t.ex. byta keyword-logik eller koppla in klassificering senare).
+
+> Alternativ implementation: `RunnableBranch`. Koden är skriven så att den enkelt kan bytas enligt README.
 
 ## Komma igång
 
@@ -23,10 +24,11 @@ Jag använde **RunnableBranch** för att bygga en *scope-vakt* som dirigerar anv
 - Node 18+
 - Supabase-projekt
 - Ollama installerat och modeller:
-
-ollama pull llama3.2:3b
- ollama pull nomic-embed-text
- ollama serve
+  ```bash
+  ollama pull llama3.2:3b
+  ollama pull nomic-embed-text
+  ollama serve
+```
 
 ### 2) Supabase – SQL
 Kör `sql/schema.sql` motsvarande (se README i repo) eller:
@@ -43,23 +45,25 @@ SUPABASE_URL=...
  OLLAMA_EMBED_MODEL=nomic-embed-text
  PORT=3001
  CORS_ORIGIN=http://localhost:5173
+```
 - Kör:
-
+```bash
 cd server
- npm install
- npm run ingest # indexera dokumentet
- npm run dev
+npm install
+npm run ingest  
+npm run dev
+```
 
 ### 4) Client
-
+```bash
 cd client
  npm install
  npm run dev
+ ```
 Öppna http://localhost:5173
 
 ### 5) Skärmdump
-- Ta en screenshot av Supabase Table Editor för `documents`.
-- Lägg som `docs/supabase-table.png` i repot.
+![Supabase-tabell](./supabase-table.png)
 
 ## Användning
 - Ställ frågor om order, leverans, retur/återbetalning, garanti, tekniskt stöd, integritet/GDPR, säkerhet, miljö/hållbarhet.
