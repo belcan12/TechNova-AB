@@ -16,7 +16,8 @@ En AI-baserad kundsupportassistent för TechNova AB. Svarar på frågor om produ
 ## Varför router med RunnableLambda?
 Jag valde att bygga en enkel *scope-vakt* med `RunnableLambda` som avgör om frågan ska köras via QA-kedjan (RAG) eller få ett vänligt avslag. Det här mönstret – en egen router i kedjan – demonstrerar hur man kan styra flödet dynamiskt i LangChain utanför det vi gått igenom i kursen, och det gör beteendet lätt att anpassa (t.ex. byta keyword-logik eller koppla in klassificering senare).
 
-> Alternativ implementation: `RunnableBranch`. Koden är skriven så att den enkelt kan bytas enligt README.
+> **Varför inte `RunnableBranch`?**  
+> `RunnableBranch` är bra när man har många grenar med separata villkor. I min lösning fanns bara två vägar (RAG eller avslag) och jag ville ha full kontroll över beslutet och kunna göra asynkron logik vid behov. Därför valde jag `RunnableLambda` – enklare att justera keyword-logik nu och byta till klassificering senare.
 
 ## Komma igång
 
